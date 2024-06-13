@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-ver="2024-05-03"
+ver="2024-06-12"
 ######################################################
-# X4_DICDIS Ver. 2024-05-03
+# X4_DICDIS Ver. 2024-06-12
 # (Creation of dictionaries for distribution)
 #
 # Naohiko Otuka (IAEA Nuclear Data Section)
@@ -32,11 +32,11 @@ def main():
   date_out=time.strftime("%Y%m")
 
   get_args(ver)
-  (dict_ver,dir_input,dir_output)=get_input()
+  (dict_ver,dir_input_a,dir_input_j,dir_output)=get_input()
 
 
 # Read JSON Dictionary
-  file_in=dir_input+"/dict."+dict_ver+".json"
+  file_in=dir_input_j+"/dict."+dict_ver+".json"
   if os.path.exists(file_in):
     f=open(file_in, 'r')
     dict_full=json.load(f)
@@ -69,7 +69,7 @@ def main():
 
 # Produce Archive Dictionary
   print("printing Archive dictionary ... ", end="")
-  print_archive(dir_input,dir_output,date_out,dictionary_list)
+  print_archive(dir_input_a,dir_output,date_out,dictionary_list)
 
 
 # Produce Backup Dictionary
@@ -79,8 +79,8 @@ def main():
 
 
 # Print Archive Dictionary after updating/excluding flagged records
-def print_archive(dir_input,dir_output,date_out,dictionary_list):
-  file_in=dir_input+"/dict_arc.top"
+def print_archive(dir_input_a,dir_output,date_out,dictionary_list):
+  file_in=dir_input_a+"/dict_arc.top"
   lines=get_file_lines(file_in)
   file_out=dir_output+"/dict_arc.top"
   print("top", end=", ")
@@ -94,7 +94,7 @@ def print_archive(dir_input,dir_output,date_out,dictionary_list):
     if re.compile("a$").search(dict_id):
       continue
     print(dict_id, end=" ")
-    file_in=dir_input+"/dict_arc_new."+dict_id
+    file_in=dir_input_a+"/dict_arc_new."+dict_id
     lines=get_file_lines(file_in)
     file_out=dir_output+"/dict_arc_new."+dict_id
     f=open(file_out,'w')
@@ -132,8 +132,10 @@ def get_args(ver):
    help="never prompt", action="store_true")
   parser.add_argument("-n", "--dict_ver",\
    help="dictionary version (transmission ID)")
-  parser.add_argument("-i", "--dir_input",\
-   help="name of input Archive and JSON Dictionary directory")
+  parser.add_argument("-a", "--dir_input_a",\
+   help="name of input Archive Dictionary directory")
+  parser.add_argument("-j", "--dir_input_j",\
+   help="name of input JSON Dictionary directory")
   parser.add_argument("-o", "--dir_output",\
    help="name of output Archive/Backup/JSON Dictionary directory")
 
@@ -160,19 +162,33 @@ def get_input():
     if not re.compile("^\d{4,4}$").search(dict_ver):
       print(" ** Dictionary version must be four-digit integer.")
 
-  dir_input=args.dir_input
-  if dir_input==None:
-    dir_input=input("input Archive+JSON dictionary dictionaries [input] -> ")
-    if dir_input=="":
-      dir_input="input"
-  if not os.path.exists(dir_input):
-    print(" ** Folder "+dir_input+" does not exist.")
-  while not os.path.exists(dir_input):
-    dir_input=input("input Archive+JSON dictionary dictionaries [input] -> ")
-    if dir_input=="":
-      dir_input="input"
-    if not os.path.exists(dir_input):
-      print(" ** Folder "+dir_input+" does not exist.")
+  dir_input_a=args.dir_input_a
+  if dir_input_a==None:
+    dir_input_a=input("input Archive dictionary dictionaries [input] -> ")
+    if dir_input_a=="":
+      dir_input_a="input"
+  if not os.path.exists(dir_input_a):
+    print(" ** Folder "+dir_input_a+" does not exist.")
+  while not os.path.exists(dir_input_a):
+    dir_input_a=input("input Archive dictionary dictionaries [input] -> ")
+    if dir_input_a=="":
+      dir_input_a="input"
+    if not os.path.exists(dir_input_a):
+      print(" ** Folder "+dir_input_a+" does not exist.")
+
+  dir_input_j=args.dir_input_j
+  if dir_input_j==None:
+    dir_input_j=input("input JSON dictionary dictionaries [json] -----> ")
+    if dir_input_j=="":
+      dir_input_j="json"
+  if not os.path.exists(dir_input_j):
+    print(" ** Folder "+dir_input_j+" does not exist.")
+  while not os.path.exists(dir_input_j):
+    dir_input_j=input("input JSON dictionary dictionaries [json] -----> ")
+    if dir_input_j=="":
+      dir_input_j="json"
+    if not os.path.exists(dir_input_j):
+      print(" ** Folder "+dir_input_j+" does not exist.")
 
   dir_output=args.dir_output
   if dir_output==None:
@@ -187,7 +203,7 @@ def get_input():
     msg="Directory '"+dir_output+"' exists and must be overwritten."
     print_error(msg,"")
 
-  return dict_ver,dir_input,dir_output
+  return dict_ver,dir_input_a,dir_input_j,dir_output
 
 
 def archive_to_backup(dir_output,dict_ver,dictionary_list):
