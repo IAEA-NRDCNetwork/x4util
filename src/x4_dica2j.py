@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-ver="2024-05-03"
+ver="2024-06-12"
 ######################################################
-# X4_DICA2J Ver. 2024-05-03
+# X4_DICA2J Ver. 2024-06-12
 # (Converter from Archive Dictionary to JSON Dictionary)
 #
 # Naohiko Otuka (IAEA Nuclear Data Section)
@@ -1416,23 +1416,17 @@ def archive_to_json_207(key,line):
 
 def archive_to_json_209(key,line):
   dictionary_entry=dict()
-  compound_flag_list=["*"]
 
   cinda_code=line[43:48].rstrip()
-  num_eq=get_numerical_equivalent("209",key,line,48,54)
+  num_eq_1=get_numerical_equivalent("209",key,line,48,55)
+  num_eq_2=get_numerical_equivalent("209",key,line,55,62)
   expansion=get_expansion("209",key," ",line,83,108)
-  compound_flag=line[113:114].rstrip()
-
-  if compound_flag!="":
-    if compound_flag not in compound_flag_list:
-      msg="Unknown compound flag"
-      print_error_2("209",key,msg,line,113,114)
 
   dictionary_entry={
     "cinda_code"                         :cinda_code,
-    "internal_numerical_equivalent"      :num_eq,
+    "internal_numerical_equivalent_1"    :num_eq_1,
+    "internal_numerical_equivalent_2"    :num_eq_2,
     "expansion"                          :expansion,
-    "compound_flag"                      :compound_flag,
     "comment"                            :[]}
   return dictionary_entry
 
@@ -1708,7 +1702,7 @@ def check_void_master(dict_id,key,line):
                  "113": [16,99],
                  "144": [26,104],
                  "207": [23,115],
-                 "209": [23,55,109,115],
+                 "209": [23,63,109,115],
                  "213": [17,47,55,63,112],
                  "227": [26,77,123],
                  "235": [14,48,85],

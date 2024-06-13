@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-ver="2024-05-03"
+ver="2024-06-12"
 ######################################################
-# X4_DICJ2T Ver. 2024-05-03
+# X4_DICJ2T Ver. 2024-06-12
 # (Converter from JSON Dictionary to Trans Dictionary)
 #
 # Naohiko Otuka (IAEA Nuclear Data Section)
@@ -94,19 +94,18 @@ def print_long_expansion_trans(f,long_expansion,dict_id,flag80,nline):
     elif i==len(chars)-1:
       text="%-66s" % text
       nline=print_trans(f,text,dict_id,flag80,nline)
+      text=""
     elif chars[i+1]==" ":
       text0=text 
       if dict_id=="236":
         text1="                       "
       else:
         text1="           "
-#   elif chars[i+1]==".":
-#     text0=text 
-#     if dict_id=="236":
-#       text1="                      "
-#     else:
-#       text1="           "
-
+ 
+  if len(text)!=0:
+    text="%-66s" % text
+    nline=print_trans(f,text,dict_id,flag80,nline)
+ 
   return nline
 
 

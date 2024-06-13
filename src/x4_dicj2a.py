@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-ver="2024-05-03"
+ver="2024-06-12"
 ######################################################
-# X4_DICJ2A Ver. 2024-05-03
+# X4_DICJ2A Ver. 2024-06-12
 # (Converter from JSON Dictionary to Archive Dictionary)
 #
 # Naohiko Otuka (IAEA Nuclear Data Section)
@@ -634,11 +634,11 @@ def json_to_archive_209(key):
   char="%-10s" % key_out\
       +" "*21\
       +"%-5s"  % dict_full["209"][key]["cinda_code"]\
-      +"%6s"   % dict_full["209"][key]["internal_numerical_equivalent"]\
-      +" "*29\
+      +"%7s"   % dict_full["209"][key]["internal_numerical_equivalent_1"]\
+      +"%7s"   % dict_full["209"][key]["internal_numerical_equivalent_2"]\
+      +" "*21\
       +"%-25s" % dict_full["209"][key]["expansion"]\
-      +" "*5\
-      +"%-1s"  % dict_full["209"][key]["compound_flag"]\
+      +" "*6\
       +" "*9
 
   return char
@@ -778,12 +778,14 @@ def print_long_expansion_archive(f,long_expansion,key,dict_id):
     elif i==len(chars)-1:
       text="%-123s" % text
       f.write(text+"\n")
+      text=""
     elif chars[i+1]==" ":
       text0=text
       text1=char0+" "
-#   elif chars[i+1]==".":
-#     text0=text
-#     text1=char0+" "
+
+  if len(text)!=0: # last line
+    text="%-123s" % text
+    f.write(text+"\n")
 
   return
 
