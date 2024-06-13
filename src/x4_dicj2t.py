@@ -976,7 +976,7 @@ def get_args(ver):
 
   parser=argparse.ArgumentParser(\
           usage="Convert JSONe Dictionary to TRANS Dictionary",\
-          epilog="example: x4_dicj2t.py -n 9128 -i input -o output")
+          epilog="example: x4_dicj2t.py -n 9128 -i json -o dist")
   parser.add_argument("-v", "--version",\
          action="version", version=ver)
   parser.add_argument("-f", "--force",\
@@ -1014,25 +1014,25 @@ def get_input():
 
   dir_input=args.dir_input
   if dir_input==None:
-    dir_input=input("input JSON Dictionary directory [input] ----> ")
+    dir_input=input("input JSON Dictionary directory [json] -----> ")
     if dir_input=="":
-      dir_input="input"
+      dir_input="json"
   file_in=dir_input+"/dict."+dict_ver+".json"
   if not os.path.isfile(file_in):
     print(" ** JSON Dictionary "+file_in+" does not exist.")
   while not os.path.isfile(file_in):
-    dir_input=input("input JSON dictionary directory [input] ----> ")
+    dir_input=input("input JSON dictionary directory [json] -----> ")
     if dir_input=="":
-      dir_input="input"
+      dir_input="json"
     file_in=dir_input+"/dict."+dict_ver+".json"
     if not os.path.isfile(file_in):
       print(" ** JSON Dictionary "+file_in+" does not exist.")
 
   dir_output=args.dir_output
   if dir_output==None:
-    dir_output=input("output TRANS Dictionary directory [output] -> ")
+    dir_output=input("output TRANS Dictionary directory [dist] ---> ")
   if dir_output=="":
-    dir_output="output"
+    dir_output="dist"
   if not os.path.isdir(dir_output):
     msg="Directionry '"+dir_output+"' does not exist and must be created."
     print_error(msg,"")

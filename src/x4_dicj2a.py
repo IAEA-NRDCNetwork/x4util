@@ -795,7 +795,7 @@ def get_args(ver):
 
   parser=argparse.ArgumentParser(\
           usage="Convert JSON Dictionary to Archive Dictionaries",\
-          epilog="example: x4_dicj2a.py -n 9128 -i input -o output")
+          epilog="example: x4_dicj2a.py -n 9128 -i json -o output")
   parser.add_argument("-v", "--version",\
          action="version", version=ver)
   parser.add_argument("-f", "--force",\
@@ -832,16 +832,16 @@ def get_input():
 
   dir_input=args.dir_input
   if dir_input==None:
-    dir_input=input("input JSON Dictionary directory [input] ------> ")
+    dir_input=input("input JSON Dictionary directory [json] -------> ")
     if dir_input=="":
-      dir_input="input"
+      dir_input="json"
     file_in=dir_input+"/dict."+dict_ver+".json"
     if not os.path.isfile(file_in):
       print(" ** JSON Dictionary "+file_in+" does not exist.")
   while not os.path.isfile(file_in):
-    dir_input=input("input JSON Dictionary directory [input] ------> ")
+    dir_input=input("input JSON Dictionary directory [json] -------> ")
     if dir_input=="":
-      dir_input="input"
+      dir_input="json"
     file_in=dir_input+"/dict."+dict_ver+".json"
     if not os.path.isfile(file_in):
       print(" ** JSON Dictionary "+file_in+" does not exist.")

@@ -125,7 +125,7 @@ def get_args(ver):
 
   parser=argparse.ArgumentParser(\
           usage="Prepare Archive, Backup and JSON Dictionaries for distribution",\
-          epilog="example: x4_dicdis.py -n 9128 -i input -o output")
+          epilog="example: x4_dicdis.py -n 9128 -a input -j json -o output")
   parser.add_argument("-v", "--version",\
          action="version", version=ver)
   parser.add_argument("-f", "--force",\
@@ -150,13 +150,13 @@ def get_input():
 
   dict_ver=args.dict_ver
   if dict_ver==None:
-    dict_ver=input("input dictionary TRANS ID [9128] -------------------> ")
+    dict_ver=input("input dictionary TRANS ID [9128] --------------> ")
     if dict_ver=="":
       dict_ver="9128"
   if not re.compile("^\d{4,4}$").search(dict_ver):
     print(" ** Dictionary version must be four-digit integer.")
   while not re.compile("^\d{4,4}$").search(dict_ver):
-    dict_ver=input("input dictionary TRANS ID [9128] -------------------> ")
+    dict_ver=input("input dictionary TRANS ID [9128] --------------> ")
     if dict_ver=="":
       dict_ver="9128"
     if not re.compile("^\d{4,4}$").search(dict_ver):
@@ -192,7 +192,7 @@ def get_input():
 
   dir_output=args.dir_output
   if dir_output==None:
-    dir_output=input("output Archive+Backup+JSON directory [dist] --------> ")
+    dir_output=input("output Archive+Backup+JSON directory [dist] ---> ")
   if dir_output=="":
     dir_output="dist";
   if not os.path.isdir(dir_output):

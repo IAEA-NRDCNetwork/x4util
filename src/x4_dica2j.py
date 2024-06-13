@@ -84,7 +84,7 @@ def get_args(ver):
 
   parser=argparse.ArgumentParser(\
           usage="Convert Archive Dictionaries to JSON Dictionary",\
-          epilog="example: x4_dica2j.py -n 9128 -i input -o output")
+          epilog="example: x4_dica2j.py -n 9128 -i input -o json")
   parser.add_argument("-v", "--version",\
          action="version", version=ver)
   parser.add_argument("-f", "--force",\
@@ -135,9 +135,9 @@ def get_input():
 
   dir_output=args.dir_output
   if dir_output==None:
-    dir_output=input("output JSON Dictionary directory [output] --> ")
+    dir_output=input("output JSON Dictionary directory [json] ----> ")
   if dir_output=="":
-    dir_output="output"
+    dir_output="json"
   if not os.path.isdir(dir_output):
     msg="Directionry '"+dir_output+"' does not exist and must be created."
     print_error(msg,"")
