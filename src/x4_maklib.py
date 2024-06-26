@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-ver="2024-05-03"
+ver="2024-06-25"
 ######################################################
-# X4_MAKLIB Ver. 2024-05-03
+# X4_MAKLIB Ver. 2024-06-25
 # (Utility for production of a new library tape.)
 #
 # Naohiko Otuka (IAEA Nuclear Data Section)
@@ -31,7 +31,9 @@ def output(lib_out,tape_id,nan,col80,area_ini,area_fin,line_out):
   date=time.strftime("%Y%m%d")
   n2="   {:8s}".format(date)
   n3n4n5="                                 "
-  if col80==True:
+  if args.cut66:
+    f.write("LIB        "+n1+n2+"\n")
+  elif col80==True:
     f.write("LIB        "+n1+n2+n3n4n5+area_ini+"000000000000 \n")
   else:
     f.write("LIB        "+n1+n2+"\n")
@@ -41,7 +43,9 @@ def output(lib_out,tape_id,nan,col80,area_ini,area_fin,line_out):
 
   n1="{:>11d}".format(nan)
   n2="{:>11s}".format("0")
-  if col80==True:
+  if args.cut66:
+    f.write("ENDLIB     "+n1+"\n")
+  elif col80==True:
     f.write("ENDLIB     "+n1+"          0"+n3n4n5+area_fin+"999999999999 \n")
   else:
     f.write("ENDLIB     "+n1+"\n")
@@ -63,10 +67,11 @@ def merge(lib_out,dir_root):
             entries.append(entry)
 
   entries=sorted(entries)
-  nan=len(entries)
+  nan=0
   for i, entry in enumerate(entries):
     if args.nodic and entry.endswith("90001.txt"):
       continue
+    nan+=1
     print("adding ..."+entry)
     with open(entry) as g:
       for line in g:
@@ -81,7 +86,14 @@ def merge(lib_out,dir_root):
           re.compile("^(ENTRY|SUBENT|NOSUBENT)").search(line):
           if line[25:27]=="  " and line[27:33]!="      ":
             line=line[0:25]+"19"+line[27:66]
-        
+        if args.cut66:
+          if len(line)>79:
+            line=line[0:66].rstrip()
+            line=line.rstrip()
+            line=line+"\n"
+          if re.compile("^END(BIB|COMMON|DATA|SUBENT|ENTRY|DICT)").search(line):
+            line=line[0:22]+"\n" # Delete N2=0
+            
         line_out.append(line.rstrip()+"\n")
 
   return nan,col80,area_ini,area_fin,line_out
@@ -99,6 +111,8 @@ def get_args(ver):
    help="never prompt", action="store_true")
   parser.add_argument("-a", "--add19",\
    help="Addition of '19' to N2 ", action="store_true")
+  parser.add_argument("-c", "--cut66",\
+   help="delete cols.67-80 and trailing blanks before col.67", action="store_true")
   parser.add_argument("-n", "--nodic",\
    help="Exclusion of dictionary ", action="store_true")
   parser.add_argument("-d", "--dir_root",\
