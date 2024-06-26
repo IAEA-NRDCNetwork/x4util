@@ -18,4 +18,4 @@ See the reference for more details.
 
 **Reference**
 
-Naohiko Otuka, "EXFOR Utility Codes", [Report IAEA-NDS-0244, Rev. 2024/05](https://nds.iaea.org/publications/nds/iaea-nds-0244/), International Atomic Energy Agency, 2024.
+Naohiko Otuka, "EXFOR Utility Codes", [Report IAEA-NDS-0244](https://nds.iaea.org/publications/nds/iaea-nds-0244/), International Atomic Energy Agency, 2024.
